@@ -1,4 +1,5 @@
 import Header from '../components/header.js';
+import Footer from '../components/footer.js';
 
 const Analysis = () => {
   return `
@@ -27,6 +28,7 @@ const Analysis = () => {
         <button id="save-result"></button>
       </section>
     </main>
+    ${Footer()}
   `;
 };
 
