@@ -1,0 +1,163 @@
+/* src/styles/main.css */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  color: #333;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header img {
+  width: 28px;
+  height: 28px;
+}
+
+header nav {
+  display: flex;
+  gap: 24px;
+}
+
+header nav a {
+  text-decoration: none;
+  color: #555;
+  font-size: 14px;
+}
+
+header nav a:hover {
+  color: #1e88e5;
+}
+
+header .logo {
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 8px;
+  color: #333;
+}
+
+button {
+  background-color: #333;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+main {
+  padding: 48px 24px;
+  text-align: center;
+}
+
+main img {
+  max-width: 180px;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+p {
+  font-size: 16px;
+  color: #666;
+}
+
+
+/* === Skin Analysis Page === */
+.analysis-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 48px 24px;
+  flex-wrap: wrap;
+}
+
+.upload-section,
+.result-section {
+  flex: 1;
+  max-width: 400px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.upload-section h2,
+.result-section h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.upload-box {
+  border: 2px dashed #ccc;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.upload-label img {
+  width: 100px;
+  margin-bottom: 1px;
+}
+
+.upload-label p {
+  color: #666;
+  font-size: 14px;
+}
+
+.upload-label .browse {
+  color: #1e88e5;
+  cursor: pointer;
+}
+
+button {
+  background-color: #111;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.preview-box {
+  height: 200px;
+  background-color: #eaeaea;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 14px;
+}
+
+.result-section.hidden {
+  display: none;
+}
+
+.upload-label.dragover {
+  border-color: #1e88e5;
+  background-color: #f0faff;
+}
