@@ -2,7 +2,7 @@ const Footer = () => {
   return `
     <footer class="footer">
       <div class="footer-content">
-        <p>DermaScan © 2025 | Made with ❤️ by Team CC25-CF344</p>
+        <p class="footer-text">DermaScan © 2025 | Made with ❤️ by Team CC25-CF344</p>
         <div class="footer-links">
           <a href="#/about">About</a>
           <a href="#">Privacy Policy</a>
