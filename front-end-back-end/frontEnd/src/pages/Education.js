@@ -19,7 +19,7 @@ const diseasesDataInternal = [
   {
     id: 3,
     title: "Bacterial Skin Infections",
-    image: "../images/placeholder.jpg", // Ganti dengan path gambar yang sesuai
+    image: "../images/placeholder.jpg", 
     description:
       "Discover common bacterial skin infections, their symptoms, and effective treatment options.",
   },
@@ -33,14 +33,14 @@ const diseasesDataInternal = [
   {
     id: 5,
     title: "Managing Hives (Urticaria)",
-    image: "../images/placeholder.jpg", // Ganti dengan path gambar yang sesuai
+    image: "../images/placeholder.jpg", 
     description:
       "Learn about hives, a common allergic reaction, and the best ways to reduce symptoms and prevent flare-ups.",
   },
   {
     id: 6,
     title: "Vitiligo: Causes & Treatment",
-    image: "../images/placeholder.jpg", // Ganti dengan path gambar yang sesuai
+    image: "../images/placeholder.jpg", 
     description:
       "Vitiligo is a long-term skin condition causing patches of skin to lose color. Explore causes and treatment.",
   },
