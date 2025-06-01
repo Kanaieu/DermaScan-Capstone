@@ -1,17 +1,23 @@
 import router from './router/routes.js';
 import './styles/main.css';
 import { setupAnalysisEvents } from './pages/skinAnalysis.js';
+import { setupLoginForm } from './pages/Login.js';
+import { setupRegisterForm } from './pages/Register.js';
 
 // Panggil router saat halaman pertama kali dimuat
 window.addEventListener('DOMContentLoaded', () => {
   router();
   setupAnalysisEvents(); // panggil di awal juga
+  setupLoginForm();
+  setupRegisterForm();
 });
 
 // Update tampilan ketika hash URL berubah (#/home, #/profile, dll)
 window.addEventListener('hashchange', () => {
   router();
   setupAnalysisEvents(); // custom function
+  setupLoginForm();
+  setupRegisterForm();
 });
 
 // listener untuk menampilkan preview gambar
