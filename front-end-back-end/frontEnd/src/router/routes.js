@@ -3,6 +3,8 @@ import Analysis from '../pages/skinAnalysis.js'
 import Education from '../pages/Education.js';
 import Profile from '../pages/Profile.js';
 import About from '../pages/About.js';
+import LoginPage from '../pages/Login.js';
+import RegisterPage from '../pages/Register.js';
 
 const routes = {
   '/': Home,
@@ -10,6 +12,8 @@ const routes = {
   '/education': Education,
   '/profile': Profile,
   '/about': About,
+  '/login': LoginPage,
+  '/register': RegisterPage
 };
 
 const router = () => {
