@@ -38,7 +38,7 @@ const RegisterPage = () => {
   `;
 };
 
-export const setupRegisterFormHandler = () => {
+export const setupRegisterForm = () => {
   if (location.hash === '#/register') {
     const form = document.getElementById('register-form');
     if (form) {
