@@ -33,7 +33,7 @@ const LoginPage = () => {
   `;
 };
 
-export const setupLoginFormHandler = () => {
+export const setupLoginForm = () => {
   if (location.hash === '#/login') {
     const form = document.getElementById('login-form');
     if (form) {
