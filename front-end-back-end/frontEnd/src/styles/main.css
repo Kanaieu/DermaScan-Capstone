@@ -253,11 +253,17 @@ p {
     gap: 24px;
   }
 
+  .inner-analysis {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
   .upload-section,
   .result-section {
-    width: 100%;
     max-width: 100%;
-    padding: 16px;
+    padding: 0;
+    margin-right: auto;
+    margin-left: auto;
   }
 
   .upload-box {
