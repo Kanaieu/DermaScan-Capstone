@@ -5,16 +5,16 @@ const Header = () => {
         <img src="/assets/logo.png" alt="Logo" />
         <span class="logo">DermaScan</span>
       </div>
-      <nav>
+      <button class="hamburger" id="hamburger-menu">☰</button>
+      <nav id="nav-links">
         <a href="#/">Home</a>
         <a href="#/analysis">Skin Analysis</a>
         <a href="#/education">Education</a>
         <a href="#/profile">Profile</a>
         <a href="#/about">About</a>
+        <a href="#/login" class="login-btn">Login</a>
+        <a href="#/register" class="register-btn">Register</a>
       </nav>
-      <div>
-        <button>Login</button>
-      </div>
     </header>
   `;
 };
