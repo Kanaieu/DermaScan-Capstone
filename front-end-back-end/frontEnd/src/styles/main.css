@@ -17,11 +17,34 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
+  box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+header .hamburger {
+  display: none;
+  background: none;
+  background-color: #111;
+  border: none;
+  cursor: pointer;
+  font-size: 19px;
+  position: absolute; /* Posisi relatif terhadap header */
+  top: 50%; /* Posisikan di tengah secara vertikal */
+  right: 24px; /* Jarak dari tepi kanan */
+  transform: translateY(-50%); /* Pastikan ikon benar-benar di tengah */
+  z-index: 20; /* Pastikan tombol berada di atas elemen lainnya */
+  width: 30px; /* Ukuran tombol */
+  height: 30px; /* Ukuran tombol */
+  color: #fff; /* Warna ikon */
+  border-radius: 4px; /* Sudut tombol */
+  align-items: center; /* Posisikan ikon di tengah secara vertikal */
+  justify-content: center; /* Posisikan ikon di tengah secara horizontal */
+  margin-top: 0;
+  padding: 0;
 }
 
 header img {
-  width: 28px;
-  height: 28px;
+  width: 25px;
+  height: 25px;
 }
 
 header nav {
@@ -33,6 +56,7 @@ header nav a {
   text-decoration: none;
   color: #555;
   font-size: 14px;
+  padding-top: 8px;
 }
 
 header nav a:hover {
@@ -46,6 +70,42 @@ header .logo {
   color: #333;
 }
 
+header .login-btn {
+  background-color: #333;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 0;
+  text-decoration: none;
+  display: inline-block;
+}
+
+header .login-btn:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+/* Tombol Register */
+header .register-btn {
+  background-color: #fff; /* Warna fill putih */
+  color: #333; /* Warna teks hitam */
+  padding: 8px 16px;
+  border: 2px solid #333; /* Outline hitam */
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none; /* Hapus underline */
+  display: inline-block; /* Pastikan tombol terlihat seperti tombol */
+}
+
+header .register-btn:hover {
+  background-color: #f0f0f0; /* Warna latar saat hover */
+  color: #000;
+}
+
 button {
   background-color: #333;
   color: #fff;
@@ -54,10 +114,6 @@ button {
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #555;
 }
 
 main {
@@ -86,16 +142,238 @@ p {
 .analysis-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 80vh;
   gap: 40px;
   padding: 48px 24px;
   flex-wrap: wrap;
+  background-color: #FAFAFA
+}
+
+.inner-analysis {
+  padding: 48px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #FFFFFF
+}
+
+.analysis-content {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  .analysis-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .inner-analysis {
+    background-color: none;
+  }
+
+  /* General adjustments for smaller screens */
+  body {
+    font-size: 14px;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  header .hamburger {
+    display: block;
+  }
+
+  header nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    gap: 12px;
+    z-index: 100;
+  }
+
+  header nav.show {
+    display: flex;
+  }
+
+  header nav a {
+    font-size: 16px;
+  }
+
+  header .login-btn {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    border: 2px solid #333;
+  }
+
+  header .login-btn:hover {
+    text-decoration: none;
+  }
+
+  header .register-btn {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  main {
+    padding: 24px 16px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  /* Skin Analysis Page */
+  .analysis-container {
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px 16px;
+  }
+
+  .analysis-content {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .inner-analysis {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .upload-section,
+  .result-section {
+    max-width: 100%;
+    padding: 0;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .upload-box {
+    padding: 16px;
+  }
+
+  .upload-label img {
+    width: 80px;
+  }
+
+  .button-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .preview-box img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Landing Page */
+  .features-section {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .feature-box {
+    width: 100%;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .testimonial-container {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .testimonial-box {
+    width: 100%;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  /* Footer */
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjustments for very small screens */
+  header {
+    padding: 8px 12px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+
+  .button-row button {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .camera-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .testimonial-box {
+    padding: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .analysis-content {
+    align-items: center;
+  }
+
+  .upload-section {
+    align-self: center;
+  }
+
+  .result-section {
+    align-self: stretch;
+  }
 }
 
 .upload-section,
 .result-section {
   flex: 1;
   max-width: 400px;
-  background-color: #fafafa;
+  background-color: #ffffff;
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 0 8px rgba(0,0,0,0.05);
@@ -130,6 +408,82 @@ p {
   cursor: pointer;
 }
 
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .button-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-row button {
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
+.camera-btn {
+  background-color: #ffffff;
+  border: 1px solid #111;
+  border-radius: 6px;
+  height: 40px;
+  width: 100%;
+  max-width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .camera-btn {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .camera-btn {
+    display: flex;
+  }
+}
+
+.camera-btn img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+}
+
+.camera-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ddd;
+}
+
+.camera-btn.full-width {
+  width: calc(180px * 2 + 12px);
+}
+
+.camera-btn:hover {
+  background-color: #f5f5f5;
+}
+
 button {
   background-color: #111;
   color: #fff;
@@ -142,15 +496,54 @@ button {
 }
 
 .preview-box {
-  height: 200px;
-  background-color: #eaeaea;
-  border-radius: 4px;
-  margin-bottom: 16px;
+  margin-top: 12px;
+  height: auto;
+  max-height: 200px;
+  overflow: hidden;
+  border-radius: 6px;
+  background-color: #f0f0f0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #999;
+}
+
+.preview-box img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+#submit-analysis,
+#change-image {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  border: 1px solid #111;
   font-size: 14px;
+  cursor: pointer;
+}
+
+#submit-analysis {
+  background-color: #111;
+  color: #fff;
+  border: none;
+}
+
+#change-image {
+  background-color: white;
+  color: #111;
+}
+
+#submit-analysis:hover {
+  background-color: #333;
+}
+
+#change-image:hover {
+  background-color: #f5f5f5;
+}
+
+.hidden {
+  display: none;
 }
 
 .result-section.hidden {
@@ -232,7 +625,7 @@ main {
   background-color: #FAFAFA;
 }
 
-.Inner-landing{
+.inner-landing{
   padding: 48px 24px;
   max-width: 1200px;
   margin: 0 auto;
@@ -278,7 +671,7 @@ main {
 .features-section {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   gap: 24px;
   margin-bottom: 64px;
 }
