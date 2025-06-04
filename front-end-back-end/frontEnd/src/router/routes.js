@@ -5,6 +5,7 @@ import Profile from '../pages/Profile.js';
 import About from '../pages/About.js';
 import LoginPage from '../pages/Login.js';
 import RegisterPage from '../pages/Register.js';
+import EditProfile from '../pages/EditProfile.js';
 
 const routes = {
   '/': Home,
@@ -13,7 +14,8 @@ const routes = {
   '/profile': Profile,
   '/about': About,
   '/login': LoginPage,
-  '/register': RegisterPage
+  '/register': RegisterPage,
+  '/edit-profile': EditProfile
 };
 
 const router = () => {
