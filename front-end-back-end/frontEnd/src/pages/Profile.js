@@ -4,25 +4,31 @@ import Footer from '../components/footer.js';
 const Profile = () => {
   return `
     ${Header()}
-    <main class="bg-white min-h-screen py-12 px-4 flex justify-center">
-      <div class="w-full max-w-xl flex flex-col items-center text-center">
+    <main class="bg-gray-50 min-h-screen py-12 px-4 flex justify-center">
+      <div class="w-full max-w-5xl bg-white rounded-2xl shadow-lg p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <!-- Profile Info -->
-        <img src="assets/avatar.png" alt="User Avatar" class="w-24 h-24 rounded-full object-cover border mb-6" />
-        <h2 class="text-2xl font-semibold text-gray-800">Jordan Lee</h2>
-        <p class="text-gray-600 text-sm mb-4">jordan@email.com</p>
-        <div class="flex flex-row gap-4 mb-8">
-          <button onclick="navigateToEditProfile()" class="bg-black text-white text-sm px-5 py-2 rounded">Edit Profile</button>
-          <button class="bg-black text-white text-sm px-5 py-2 rounded">Logout</button>
-        </div>
+        <aside class="col-span-1 flex flex-col items-center text-center">
+          <img src="assets/avatar.png" alt="Avatar" class="w-24 h-24 rounded-full object-cover mb-4 border border-gray-300" />
+          <h2 class="text-lg font-semibold text-gray-800">Jordan Lee</h2>
+          <p class="text-sm text-gray-500 mb-4">jordan@email.com</p>
+          <div class="flex flex-col gap-2 w-full px-6">
+            <button onclick="navigateToEditProfile()" id="edit-profile-btn" class="bg-blue-600 text-white text-sm py-2 rounded-md hover:bg-blue-700 transition">Edit Profile</button>
+            <button id="logout-btn" class="bg-gray-200 text-gray-700 text-sm py-2 rounded-md hover:bg-gray-300 transition">Logout</button>
+          </div>
+        </aside>
 
         <!-- Diagnosis History -->
-        <h3 class="text-lg font-semibold text-gray-800 mb-6">Diagnosis History</h3>
-        <div class="flex flex-col items-center gap-10 w-full">
-          ${renderDiagnosis("Psoriasis", "13 March 2025", "Advised to use topical corticosteroids and moisturizers.", "assets/psoriasis.jpg")}
-          ${renderDiagnosis("Eczema", "05 February 2025", "Apply fragrance-free moisturizer and consult dermatologist if needed.", "assets/eczema.jpg")}
-          ${renderDiagnosis("Contact Dermatitis", "17 January 2025", "Recommend avoidance of irritants and use of mild soaps.", "assets/dermatitis.jpeg")}
-        </div>
+        <section class="col-span-2">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">Diagnosis History</h3>
+          <div class="flex flex-col gap-4">
+
+            ${renderDiagnosis("Psoriasis", "13 March 2025", "Advised to use topical corticosteroids and moisturizers.", "assets/psoriasis.jpg")}
+            ${renderDiagnosis("Eczema", "05 February 2025", "Apply fragrance-free moisturizer and consult dermatologist if needed.", "assets/eczema.jpg")}
+            ${renderDiagnosis("Contact Dermatitis", "17 January 2025", "Recommend avoidance of irritants and use of mild soaps.", "assets/dermatitis.jpeg")}
+
+          </div>
+        </section>
 
       </div>
     </main>
@@ -32,10 +38,16 @@ const Profile = () => {
 
 function renderDiagnosis(title, date, desc, imagePath) {
   return `
-    <div class="flex flex-col items-center text-center">
-      <img src="${imagePath}" alt="${title}" class="w-48 h-48 object-cover rounded border mb-3" />
-      <p class="font-semibold text-gray-800">${title} <span class="text-sm text-gray-500">${date}</span></p>
-      <p class="text-sm text-gray-700 mt-1 w-full max-w-md">${desc}</p>
+    <div class="bg-blue-50 p-4 rounded-lg shadow-sm border border-blue-100">
+      <div class="flex items-start gap-4 pl-4">
+        <img src="${imagePath}" alt="${title}" class="w-20 h-20 object-cover rounded-lg border border-gray-300 shadow-sm group-hover:scale-105 transition" />
+        <div>
+          <p class="text-lg font-semibold text-gray-800">${title} 
+            <span class="text-xs text-gray-500 ml-2">${date}</span>
+          </p>
+          <p class="text-sm text-gray-600 mt-1 leading-relaxed">${desc}</p>
+        </div>
+      </div>
     </div>
   `;
 }

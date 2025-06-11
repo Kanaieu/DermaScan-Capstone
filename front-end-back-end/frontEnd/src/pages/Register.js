@@ -7,7 +7,7 @@ const RegisterPage = () => {
     <div class="bg-gray-100 flex flex-col justify-start items-center pt-20 px-4 pb-20">
       <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-sm">
         <div class="flex flex-col items-center mb-6">
-          <img src="assets/logo.png" alt="Logo" class="w-6 h-6 mb-2" />
+          <img src="assets/logo3.png" alt="Logo" class="w-20 mb-2" />
           <h2 class="text-xl font-semibold text-gray-800">Create Account</h2>
         </div>
         <form id="register-form">
@@ -27,6 +27,7 @@ const RegisterPage = () => {
               class="mt-1 block w-full border border-gray-300 bg-gray-100 rounded-md p-2 text-sm focus:ring focus:ring-indigo-200" required />
           </div>
           <button type="submit"
+          id="register-page-btn"
             class="w-full bg-gray-900 text-white py-2 rounded-md hover:bg-gray-700 transition">Register</button>
         </form>
         <p class="mt-9 text-sm text-center text-gray-500">Already have an account?

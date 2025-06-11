@@ -11,7 +11,7 @@ const Home = () => {
           <p>
             Empowering you to identify, understand, and treat skin conditions with AI-powered analysis and trusted educational content.
           </p>
-          <a href="/analysis" class="start-btn">Start Diagnosis</a>
+          <a href="#/analysis" class="start-btn">Start Diagnosis</a>
         </section>
 
         <section class="features-section">

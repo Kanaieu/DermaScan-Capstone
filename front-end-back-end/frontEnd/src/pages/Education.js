@@ -36,7 +36,7 @@ const Education = async () => {
       .map((disease) => {
         return `
         <article class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col transition-shadow duration-300 hover:shadow-xl">
-          <div class="h-48 w-full bg-gray-200 flex items-center justify-center text-gray-500">
+          <div class="h-48 w-full flex items-center justify-center text-gray-500" style="background-color: #B6C3DA;">
             <img src="${disease.image}" alt="${disease.title}" class="w-full h-full object-cover">
           </div>
           <div class="p-5 flex flex-col flex-grow">
@@ -58,16 +58,17 @@ const Education = async () => {
     return `
       <div class="mb-8">
         <input
+          id="search-input"
           type="text"
           placeholder="Search articles..."
           class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
       </div>
       <div class="flex flex-wrap justify-center md:justify-end gap-2 mb-8">
-        <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">All</button>
-        <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Infection</button>
-        <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Allergy</button>
-        <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Autoimmune</button>
+        <button id="search-btn" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50" >All</button>
+        <button id="search-btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Infection</button>
+        <button id="search-btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Allergy</button>
+        <button id="search-btn" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">Autoimmune</button>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         ${diseaseArticlesHTML}
