@@ -1,4 +1,7 @@
 /* src/styles/main.css */
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
 
 body {
   margin: 0;
