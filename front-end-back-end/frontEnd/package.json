@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
+    "@supabase/supabase-js": "^2.50.0",
     "leaflet": "^1.9.4",
     "tiny-slider": "^2.9.4"
   }
