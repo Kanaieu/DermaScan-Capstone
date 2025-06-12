@@ -3,6 +3,8 @@ import FormData from 'form-data';
 import fs from 'fs';
 import { supabase } from '../connect/supabase.js';
 
+const API_BASE_URL = process.env.API_BASE_URL;
+
 export default [
   {
     method: 'POST',
@@ -26,7 +28,7 @@ export default [
 
         // Kirim file ke API model ML
         const response = await axios.post(
-          'https://api-model-v1.onrender.com/predict',
+          `${API_BASE_URL}/predict`,
           form,
           {
             headers: form.getHeaders(),
