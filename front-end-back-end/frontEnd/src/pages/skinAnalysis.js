@@ -125,25 +125,79 @@ export const setupAnalysisEvents = () => {
   });
 
   // Submit Analisis
-  submitBtn.addEventListener('click', () => {
+  submitBtn.addEventListener("click", async () => {
     if (!uploadedImage) {
-      alert('Please upload a photo first.');
+      alert("Please upload a photo first.");
       return;
     }
 
-    // Tampilkan hasil diagnosa
-    resultSection.classList.remove('hidden');
-    previewBoxResult.innerHTML = `
-      <img src="${uploadedImage}" alt="Result" style="max-width:100%; border-radius: 4px;" />
-    `;
+    try {
+      const authToken = localStorage.getItem("authToken");
+      if (!authToken) {
+        alert("Anda belum login. Silakan login terlebih dahulu.");
+        return;
+      }
 
-    // Update informasi diagnosa
-    const diagnosisInfo = document.getElementById('diagnosis-info');
-    diagnosisInfo.innerHTML = `
-      <p><strong>Detected Condition:</strong><br> Atopic Dermatitis</p>
-      <p><strong>Explanation:</strong><br> A chronic skin condition causing itchy, inflamed skin.</p>
-      <p><strong>Suggested Treatment:</strong><br> Moisturizing creams and topical corticosteroids as prescribed.</p>
-    `;
+      // Kirim file ke backend untuk analisis
+      const formData = new FormData();
+      formData.append("image", fileInput.files[0]); // Gunakan key "image" sesuai dengan yang diharapkan backend
+
+      const analyzeResponse = await fetch("http://localhost:9001/analyze", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${authToken}`, // Gunakan token dari localStorage
+        },
+        body: formData, // FormData akan secara otomatis menetapkan Content-Type
+      });
+
+      if (!analyzeResponse.ok) {
+        throw new Error("Failed to analyze image");
+      }
+
+      const { data } = await analyzeResponse.json();
+      const { disease } = data;
+      console.log("Analysis result:", data);
+
+      // Ambil explanation dan treatment dari tabel dataDiseases
+      const diseaseInfoResponse = await fetch(
+        `http://localhost:9001/disease-info?disease=${encodeURIComponent(disease)}`
+      );
+
+      if (!diseaseInfoResponse.ok) {
+        throw new Error("Failed to fetch disease information");
+      }
+
+      const { data: diseaseInfo } = await diseaseInfoResponse.json();
+
+      // Tampilkan hasil diagnosa
+      resultSection.classList.remove("hidden");
+      previewBoxResult.innerHTML = `
+        <img src="${uploadedImage}" alt="Result" style="max-width:100%; border-radius: 4px;" />
+      `;
+
+      // Update informasi diagnosa
+      const diagnosisInfo = document.getElementById("diagnosis-info");
+      diagnosisInfo.innerHTML = `
+        <p><strong>Detected Condition:</strong><br> ${disease}</p>
+        <p><strong>Explanation:</strong><br> ${diseaseInfo.explanation}</p>
+        <p><strong>Suggested Treatment:</strong><br> ${diseaseInfo.treatment}</p>
+      `;
+    } catch (err) {
+      console.error(err.message);
+      alert("An error occurred. Please try again.");
+    }
+
+    // Simulasi penyimpanan hasil ke profil
+    alert("Diagnosis result saved to your profile successfully!");
+    // Reset form
+    fileInput.value = "";
+    uploadedImage = "";
+    previewImage.src = "";
+    previewBox.classList.add("hidden");
+    changeBtn.classList.add("hidden");
+    label.classList.remove("hidden");
+    cameraBtn.classList.remove("full-width");
+    resultSection.classList.add("hidden");
   });
 };
 

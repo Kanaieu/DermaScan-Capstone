@@ -4,10 +4,9 @@
 
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #ffffff;
-  color: #333;
+  background-color: #F9FAFB;
+  color: #111111;
+  font-family: 'Inter', sans-serif;
 }
 
 header {
@@ -73,9 +72,21 @@ header .logo {
   color: #333;
 }
 
+#login-page-btn,
+#register-page-btn {
+  background-color: #133E87;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none; /* Hapus underline */
+}
+
 header .login-btn {
-  background-color: #333;
-  color: #fff;
+  background-color: #133E87;
+  color: white;
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -521,20 +532,32 @@ button {
   height: 40px;
   padding: 0 16px;
   border-radius: 6px;
-  border: 1px solid #111;
+  border: 1px solid #133E87;
   font-size: 14px;
   cursor: pointer;
 }
 
+
 #submit-analysis {
-  background-color: #111;
+  background-color: #133E87;
+  color: #fff;
+  border: none;
+}
+
+#submit-analysis:hover {
+  background-color: #1e88e5;
+  color: #fff;
+}
+
+#save-result{
+  background-color: #133E87;
   color: #fff;
   border: none;
 }
 
 #change-image {
-  background-color: white;
-  color: #111;
+  background-color: #111;
+  color: white;
 }
 
 #submit-analysis:hover {
@@ -559,7 +582,7 @@ button {
 }
 
 .footer {
-  background-color: #697077;
+  background-color: #354C6A;
   padding: 20px 24px;
   font-size: 14px;
   color: #666;
@@ -657,7 +680,7 @@ main {
 }
 
 .start-btn {
-  background-color: #262626;
+  background-color: #133E87;
   color: white;
   padding: 15px 35px;
   font-size: 16px;
@@ -734,7 +757,7 @@ main {
   flex: 1;
   min-width: 280px;
   max-width: 300px;
-  background-color: #F5F5F5;
+  background-color: #ebf2ff;
   padding: 20px;
   border-radius: 8px;
   font-style: italic;
@@ -750,5 +773,39 @@ main {
 .testimonial-box span {
   display: block;
   font-size: 14px;
-  color: #888;
+  color: #525252;
+}
+
+#search-btn{
+  background-color: #B6CAE2;
+}
+
+#search-input{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-color: #77aff3;
+}
+
+#edit-profile-btn {
+  background-color: #133E87;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#logout-btn {
+  background-color: #B6CAE2;
+  color: #333;
+  padding: 8px 16px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
 }

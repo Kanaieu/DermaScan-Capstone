@@ -8,9 +8,10 @@ export default {
   theme: {
     extend: {
       // Di sini tempat Anda menambahkan kustomisasi tema, misalnya warna atau font
-      // colors: {
-      //   'brand-blue': '#1992d4',
-      // },
+      colors: {
+        primary_100: '#B6C3DA', // beri nama sesuai keinginan
+        secondary_200: '#B6CAE2', // beri nama sesuai keinginan
+      },
     },
   },
   plugins: [
