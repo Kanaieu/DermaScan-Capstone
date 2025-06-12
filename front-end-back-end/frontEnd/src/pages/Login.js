@@ -35,20 +35,46 @@ const LoginPage = () => {
 };
 
 export const setupLoginForm = () => {
-  if (location.hash === '#/login') {
-    const form = document.getElementById('login-form');
+  if (location.hash === "#/login") {
+    const form = document.getElementById("login-form");
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const email = document.getElementById('email-input').value;
-        const password = document.getElementById('password-input').value;
+        const email = document.getElementById("email-input").value;
+        const password = document.getElementById("password-input").value;
 
         if (email && password) {
-          alert('Login berhasil');
-          window.location.hash = '/';
+          try {
+            // Kirim permintaan login ke backend
+            const loginResponse = await fetch("http://localhost:9001/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
+
+            if (!loginResponse.ok) {
+              throw new Error("Login failed. Please check your credentials.");
+            }
+
+            // Ambil token dari respons backend
+            const { token } = await loginResponse.json();
+
+            // Simpan token di localStorage
+            localStorage.setItem("authToken", token);
+            console.log("Token disimpan:", token); // Debugging log
+
+            // Redirect ke halaman utama setelah login berhasil
+            alert("Login berhasil!");
+            window.location.hash = "/";
+          } catch (err) {
+            console.error(err.message);
+            alert("Login gagal. Silakan periksa email dan password Anda.");
+          }
         } else {
-          alert('Email dan password harus diisi');
+          alert("Email dan password harus diisi.");
         }
       });
     }
