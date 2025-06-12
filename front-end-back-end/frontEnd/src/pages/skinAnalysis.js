@@ -1,6 +1,7 @@
 import Header from "../components/header.js";
 import Footer from "../components/footer.js";
 import { createClient } from "@supabase/supabase-js";
+import { showPopup } from "../components/popup.js";
 
 const BACKEND_API_URL = process.env.BACKEND_API_URL;
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -156,7 +157,7 @@ export const setupAnalysisEvents = () => {
   submitBtn.addEventListener("click", async () => {
     const file = document.getElementById("photo-input").files[0];
     if (!file) {
-      alert("Please upload a photo first.");
+      showPopup("Please upload a photo first.", "error");
       return;
     }
 
@@ -192,14 +193,16 @@ export const setupAnalysisEvents = () => {
 
   saveResultBtn.addEventListener("click", async () => {
     if (!uploadedImage) {
-      alert("Please upload a photo first.");
+      showPopup("Please upload a photo first.", "error");
+      // alert("Please upload a photo first.");
       return;
     }
 
     // Ambil data user dari localStorage
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || !user.id) {
-      alert("User tidak ditemukan. Silakan login ulang.");
+      showPopup("User tidak ditemukan. Silakan login ulang.", "error");
+      // alert("User tidak ditemukan. Silakan login ulang.");
       return;
     }
 
@@ -247,10 +250,12 @@ export const setupAnalysisEvents = () => {
 
       if (!res.ok) throw new Error("Failed to save");
 
-      alert("Saved to profile successfully!");
+      showPopup("Saved to profile successfully!", "success");
+      // alert("Saved to profile successfully!");
     } catch (err) {
       console.error("Error saving to profile:", err); // ← PENTING!
-      alert("Gagal menyimpan: " + (err.message || JSON.stringify(err)));
+      showPopup("Failed to save: " + (err.message || JSON.stringify(err)), "error");
+      // alert("Gagal menyimpan: " + (err.message || JSON.stringify(err)));
     }
 
     // Reset form
