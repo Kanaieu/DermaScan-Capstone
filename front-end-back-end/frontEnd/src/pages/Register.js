@@ -39,13 +39,18 @@ const RegisterPage = () => {
   `;
 };
 
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
+
 export const setupRegisterForm = () => {
+  // console.log("Disini Aman 1");
   if (location.hash === "#/register") {
     const form = document.getElementById("register-form");
+    // console.log("Disini Aman 2");
     if (form) {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // console.log("Disini Aman 3");
         const name = document.getElementById("name-input").value;
         const email = document.getElementById("email-input").value;
         const password = document.getElementById("password-input").value;
@@ -56,12 +61,13 @@ export const setupRegisterForm = () => {
         }
 
         try {
-          const res = await fetch("https://delightful-fascination-production.up.railway.app/register", {
+          const res = await fetch(`${BACKEND_API_URL}/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
           });
 
+          console.log("Disini Aman 5");
           const data = await res.json();
 
           if (!res.ok) {
