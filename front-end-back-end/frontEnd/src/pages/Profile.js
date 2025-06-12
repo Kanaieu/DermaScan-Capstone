@@ -1,6 +1,7 @@
 import Header from "../components/header.js";
 import Footer from "../components/footer.js";
 import { supabase } from "./skinAnalysis.js";
+import { showPopup } from "../components/popup.js";
 
 const BACKEND_API_URL = process.env.BACKEND_API_URL;
 
@@ -119,7 +120,7 @@ export const setupProfileEvents = async () => {
         setupProfileEvents();
       } catch (err) {
         console.error("Error deleting entry:", err);
-        alert("Failed to delete diagnosis entry.");
+        showPopup("Failed to delete entry", "error");
       }
     });
   });
@@ -131,14 +132,14 @@ export const setupProfileEvents = async () => {
       const confirmLogout = confirm("Yakin ingin logout?");
       if (confirmLogout) {
         localStorage.removeItem("user"); // Hapus sesi user
-        alert("Logout berhasil!");
+        showPopup("Logout berhasil!", "success");
         window.location.hash = "/login"; // Redirect ke login page
       }
     });
   }
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user) {
-    alert("Silakan login terlebih dahulu.");
+    showPopup("Silakan login terlebih dahulu.", "error");
     window.location.hash = "/login";
     return;
   }
