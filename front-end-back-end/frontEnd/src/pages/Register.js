@@ -1,5 +1,6 @@
 import Header2 from "../components/Header2.js";
 import Footer from "../components/footer.js";
+import { showPopup } from "../components/popup.js";
 
 const RegisterPage = () => {
   return `
@@ -56,7 +57,7 @@ export const setupRegisterForm = () => {
         const password = document.getElementById("password-input").value;
 
         if (!name || !email || !password) {
-          alert("Semua kolom harus diisi");
+          showPopup("Semua kolom harus diisi", "error"); // Ganti alert dengan showPopup
           return;
         }
 
@@ -71,14 +72,14 @@ export const setupRegisterForm = () => {
           const data = await res.json();
 
           if (!res.ok) {
-            alert(data.error || "Registrasi gagal");
+            showPopup(data.error || "Registrasi gagal", "error"); // Ganti alert dengan showPopup
             return;
           }
 
-          alert("Registrasi berhasil!");
+          showPopup("Registrasi berhasil!", "success"); // Ganti alert dengan showPopup
           window.location.hash = "/login";
         } catch (err) {
-          alert("Terjadi kesalahan saat registrasi");
+          showPopup("Terjadi kesalahan saat registrasi", "error"); // Ganti alert dengan showPopup
           console.error(err);
         }
       });
