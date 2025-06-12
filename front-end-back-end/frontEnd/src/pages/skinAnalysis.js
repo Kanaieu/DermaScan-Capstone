@@ -154,7 +154,8 @@ export const setupAnalysisEvents = () => {
 
   // Submit Analisis
   submitBtn.addEventListener("click", async () => {
-    if (!uploadedImage) {
+    const file = document.getElementById("photo-input").files[0];
+    if (!file) {
       alert("Please upload a photo first.");
       return;
     }
@@ -164,22 +165,22 @@ export const setupAnalysisEvents = () => {
     <img src="${uploadedImage}" alt="Result" style="max-width:100%; border-radius: 4px;" />
   `;
 
+    const formData = new FormData();
+    formData.append("image", file);
+
     try {
-      const res = await fetch("http://localhost:3001/predict", {
+      const res = await fetch("https://delightful-fascination-production.up.railway.app/predict", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ demo: true }), // isi dummy agar tidak kosong
+        body: formData, // Kirim form-data
       });
 
       if (!res.ok) throw new Error("Failed to fetch prediction");
 
       const data = await res.json();
 
-      // Tampilkan diagnosis dari backend demo
+      // Tampilkan hasil prediksi, penjelasan, dan pengobatan
       diagnosisInfo.innerHTML = `
-      <p><strong>Detected Condition:</strong><br> ${data.label}</p>
+      <p><strong>Detected Condition:</strong><br> ${data.prediction}</p>
       <p><strong>Explanation:</strong><br> ${data.explanation}</p>
       <p><strong>Suggested Treatment:</strong><br> ${data.treatment}</p>
     `;
@@ -236,7 +237,7 @@ export const setupAnalysisEvents = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3001/history", {
+      const res = await fetch("https://delightful-fascination-production.up.railway.app/history", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
