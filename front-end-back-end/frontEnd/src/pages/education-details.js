@@ -1,14 +1,13 @@
 import Header from "../components/header.js";
 import Footer from "../components/footer.js";
 
-// FUNGSI BANTUAN: Untuk merender satu bagian (seperti Gejala, Penyebab, dll)
 const renderSection = (title, items) => {
-  // Jika tidak ada data di array, jangan tampilkan apa-apa
+  
   if (!items || items.length === 0) {
     return "";
   }
 
-  // Ubah setiap item di array menjadi elemen paragraf <p>
+  
   const contentHTML = items
     .map(
       (item) =>
@@ -83,15 +82,15 @@ const EducationDetails = async () => {
     <main class="bg-white-50 min-h-screen">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div class="max-w-4xl mx-auto">
-          <article class="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
+          <article class="article-detail-view bg-white p-6 sm:p-8 rounded-lg shadow-lg">
             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
               <span class="text-sm text-gray-500">Selasa, 10 Juni 2025</span>
               <span class="text-xs sm:text-sm text-white bg-blue-600 px-3 py-1 rounded-full font-semibold">${disease.tags[0]}</span>
             </div>
             <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">${disease.title}</h1>
-            <div class="w-full h-56 sm:h-72 lg:h-96 bg-gray-300 rounded-lg mb-8 overflow-hidden">
-              <img src="${disease.image}" alt="${disease.title}" class="w-full h-full object-cover">
-            </div>
+            <div class="w-full h-56 sm:h-72 lg:h-96 bg-gray-200 rounded-lg mb-8 flex justify-center items-center overflow-hidden">
+  <img src="${disease.image}" alt="${disease.title}" class="max-w-full max-h-full object-contain">
+</div>
             
             <div class="text-left space-y-4">
               <p class="text-lg text-gray-700">${disease["detailed-desc"]}</p>
@@ -110,7 +109,7 @@ const EducationDetails = async () => {
             <h2 class="text-2xl font-semibold mb-6 text-gray-800">Related Articles</h2>
             ${
               relatedArticlesHTML.length > 0
-                ? `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">${relatedArticlesHTML}</div>`
+                ? `<div class="article-detail-view grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">${relatedArticlesHTML}</div>`
                 : '<p class="text-gray-500">Tidak ada artikel terkait yang ditemukan.</p>'
             }
           </footer>

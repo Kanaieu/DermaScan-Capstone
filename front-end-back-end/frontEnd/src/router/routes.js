@@ -1,6 +1,6 @@
 import Home from '../pages/Home.js';
 import Analysis from '../pages/skinAnalysis.js'
-import Education from '../pages/Education.js';
+import EducationPage from '../pages/Education.js';
 import Profile from '../pages/profile.js';
 import About from '../pages/About.js';
 import LoginPage from '../pages/Login.js';
@@ -11,7 +11,7 @@ import EducationDetails from "../pages/education-details.js";
 const routes = {
   '/': Home,
   '/analysis': Analysis,
-  '/education': Education,
+  '/education': EducationPage,
   '/profile': Profile,
   '/about': About,
   '/login': LoginPage,
