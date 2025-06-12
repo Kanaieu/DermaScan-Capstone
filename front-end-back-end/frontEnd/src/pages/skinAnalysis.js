@@ -1,5 +1,31 @@
 import Header from "../components/header.js";
 import Footer from "../components/footer.js";
+import { createClient } from "@supabase/supabase-js";
+
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey =process.env.SUPABASE_ANON_KEY;
+export const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Fungsi upload gambar ke Supabase Storage
+const uploadImageToSupabase = async (file, filename) => {
+  const { data, error } = await supabase.storage
+    .from("images")
+    .upload(`user-uploads/${filename}`, file, {
+      cacheControl: "3600",
+      upsert: true,
+    });
+
+  console.log("Upload result:", { data, error });
+
+  if (error) throw error;
+
+  const { data: publicUrl } = supabase.storage
+    .from("images")
+    .getPublicUrl(data.path);
+
+  return publicUrl.publicUrl;
+};
 
 const Analysis = () => {
   return `
@@ -64,6 +90,7 @@ export const setupAnalysisEvents = () => {
   const label = document.querySelector(".upload-label");
   const cameraBtn = document.getElementById("open-camera");
   const saveResultBtn = document.getElementById("save-result");
+  const diagnosisInfo = document.getElementById("diagnosis-info");
 
   let uploadedImage = "";
 
@@ -126,35 +153,105 @@ export const setupAnalysisEvents = () => {
   });
 
   // Submit Analisis
-  submitBtn.addEventListener("click", () => {
+  submitBtn.addEventListener("click", async () => {
     if (!uploadedImage) {
       alert("Please upload a photo first.");
       return;
     }
 
-    // Tampilkan hasil diagnosa
     resultSection.classList.remove("hidden");
     previewBoxResult.innerHTML = `
-      <img src="${uploadedImage}" alt="Result" style="max-width:100%; border-radius: 4px;" />
-    `;
+    <img src="${uploadedImage}" alt="Result" style="max-width:100%; border-radius: 4px;" />
+  `;
 
-    // Update informasi diagnosa
-    const diagnosisInfo = document.getElementById("diagnosis-info");
-    diagnosisInfo.innerHTML = `
-      <p><strong>Detected Condition:</strong><br> Atopic Dermatitis</p>
-      <p><strong>Explanation:</strong><br> A chronic skin condition causing itchy, inflamed skin.</p>
-      <p><strong>Suggested Treatment:</strong><br> Moisturizing creams and topical corticosteroids as prescribed.</p>
+    try {
+      const res = await fetch("http://localhost:3001/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ demo: true }), // isi dummy agar tidak kosong
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch prediction");
+
+      const data = await res.json();
+
+      // Tampilkan diagnosis dari backend demo
+      diagnosisInfo.innerHTML = `
+      <p><strong>Detected Condition:</strong><br> ${data.label}</p>
+      <p><strong>Explanation:</strong><br> ${data.explanation}</p>
+      <p><strong>Suggested Treatment:</strong><br> ${data.treatment}</p>
     `;
+    } catch (err) {
+      console.error("Prediction error:", err);
+      diagnosisInfo.innerHTML = `<p class="text-red-500">Failed to load prediction result.</p>`;
+    }
   });
 
-  saveResultBtn.addEventListener("click", () => {
+  saveResultBtn.addEventListener("click", async () => {
     if (!uploadedImage) {
       alert("Please upload a photo first.");
       return;
     }
 
-    // Simulasi penyimpanan hasil ke profil
-    alert("Diagnosis result saved to your profile successfully!");
+    // Ambil data user dari localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user.id) {
+      alert("User tidak ditemukan. Silakan login ulang.");
+      return;
+    }
+
+    const file = document.getElementById("photo-input").files[0];
+    const imageUrl = await uploadImageToSupabase(
+      file,
+      `user-${user.id}-${Date.now()}.jpg`,
+    );
+
+    // Ambil info diagnosis
+    const detectedLabel =
+      diagnosisInfo
+        .querySelector("p:nth-child(1)")
+        .textContent.split(":")[1]
+        ?.trim() || "-";
+
+    const explanation =
+      diagnosisInfo
+        .querySelector("p:nth-child(2)")
+        .textContent.split(":")[1]
+        ?.trim() || "-";
+
+    const treatment =
+      diagnosisInfo
+        .querySelector("p:nth-child(3)")
+        .textContent.split(":")[1]
+        ?.trim() || "-";
+
+    // Buat payload dengan userId
+    const payload = {
+      label: detectedLabel,
+      explanation: `${explanation} ${treatment}`,
+      imageUrl,
+      userId: user.id, // ← kirim user id
+    };
+
+    try {
+      const res = await fetch("http://localhost:3001/history", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Failed to save");
+
+      alert("Saved to profile successfully!");
+    } catch (err) {
+      console.error("Error saving to profile:", err); // ← PENTING!
+      alert("Gagal menyimpan: " + (err.message || JSON.stringify(err)));
+    }
+
     // Reset form
     fileInput.value = "";
     uploadedImage = "";

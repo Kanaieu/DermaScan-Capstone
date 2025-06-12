@@ -1,4 +1,6 @@
 const Header = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return `
     <header>
       <div style="display: flex; align-items: center;">
@@ -12,8 +14,13 @@ const Header = () => {
         <a href="#/education">Education</a>
         <a href="#/profile">Profile</a>
         <a href="#/about">About</a>
-        <a href="#/login" class="login-btn">Login</a>
-        <a href="#/register" class="register-btn">Register</a>
+        ${
+          user
+            ? `<a href="#" id="logout-link" class="logout-btn">Logout</a>`
+            : `
+            <a href="#/login" class="login-btn">Login</a>
+            <a href="#/register" class="register-btn">Register</a>`
+        }
       </nav>
     </header>
   `;

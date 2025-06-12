@@ -1,5 +1,5 @@
-import Header2 from '../components/Header2.js';
-import Footer from '../components/footer.js';
+import Header2 from "../components/Header2.js";
+import Footer from "../components/footer.js";
 
 const RegisterPage = () => {
   return `
@@ -40,21 +40,40 @@ const RegisterPage = () => {
 };
 
 export const setupRegisterForm = () => {
-  if (location.hash === '#/register') {
-    const form = document.getElementById('register-form');
+  if (location.hash === "#/register") {
+    const form = document.getElementById("register-form");
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const name = document.getElementById('name-input').value;
-        const email = document.getElementById('email-input').value;
-        const password = document.getElementById('password-input').value;
+        const name = document.getElementById("name-input").value;
+        const email = document.getElementById("email-input").value;
+        const password = document.getElementById("password-input").value;
 
-        if (name && email && password) {
-          alert('Registrasi berhasil');
-          window.location.hash = '/login';
-        } else {
-          alert('Semua kolom harus diisi');
+        if (!name || !email || !password) {
+          alert("Semua kolom harus diisi");
+          return;
+        }
+
+        try {
+          const res = await fetch("http://localhost:3001/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            alert(data.error || "Registrasi gagal");
+            return;
+          }
+
+          alert("Registrasi berhasil!");
+          window.location.hash = "/login";
+        } catch (err) {
+          alert("Terjadi kesalahan saat registrasi");
+          console.error(err);
         }
       });
     }
