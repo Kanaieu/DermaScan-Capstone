@@ -1,5 +1,6 @@
 import Header2 from "../components/Header2.js";
 import Footer from "../components/footer.js";
+import { showPopup } from "../components/popup.js";
 
 const RegisterPage = () => {
   return `
@@ -39,40 +40,47 @@ const RegisterPage = () => {
   `;
 };
 
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
+
 export const setupRegisterForm = () => {
+  // console.log("Disini Aman 1");
   if (location.hash === "#/register") {
     const form = document.getElementById("register-form");
+    // console.log("Disini Aman 2");
     if (form) {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // console.log("Disini Aman 3");
         const name = document.getElementById("name-input").value;
         const email = document.getElementById("email-input").value;
         const password = document.getElementById("password-input").value;
 
         if (!name || !email || !password) {
-          alert("Semua kolom harus diisi");
+          showPopup("Semua kolom harus diisi", "error"); // Ganti alert dengan showPopup
           return;
         }
 
         try {
-          const res = await fetch("https://delightful-fascination-production.up.railway.app/register", {
+          // const res = await fetch("https://delightful-fascination-production.up.railway.app/register", {
+          const res = await fetch(`${BACKEND_API_URL}/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
           });
 
+          console.log("Disini Aman 5");
           const data = await res.json();
 
           if (!res.ok) {
-            alert(data.error || "Registrasi gagal");
+            showPopup(data.error || "Registrasi gagal", "error"); // Ganti alert dengan showPopup
             return;
           }
 
-          alert("Registrasi berhasil!");
+          showPopup("Registrasi berhasil!", "success"); // Ganti alert dengan showPopup
           window.location.hash = "/login";
         } catch (err) {
-          alert("Terjadi kesalahan saat registrasi");
+          showPopup("Terjadi kesalahan saat registrasi", "error"); // Ganti alert dengan showPopup
           console.error(err);
         }
       });

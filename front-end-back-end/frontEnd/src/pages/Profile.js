@@ -1,6 +1,9 @@
 import Header from "../components/header.js";
 import Footer from "../components/footer.js";
 import { supabase } from "./skinAnalysis.js";
+import { showPopup } from "../components/popup.js";
+
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
 
 const Profile = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -107,7 +110,8 @@ export const setupProfileEvents = async () => {
       if (!confirm("Are you sure you want to delete this entry?")) return;
 
       try {
-        const res = await fetch(`https://delightful-fascination-production.up.railway.app/history/${id}`, {
+        // const res = await fetch(`https://delightful-fascination-production.up.railway.app/history/${id}`, {
+        const res = await fetch(`${BACKEND_API_URL}/history/${id}`, {
           method: "DELETE",
         });
 
@@ -117,7 +121,7 @@ export const setupProfileEvents = async () => {
         setupProfileEvents();
       } catch (err) {
         console.error("Error deleting entry:", err);
-        alert("Failed to delete diagnosis entry.");
+        showPopup("Failed to delete entry", "error");
       }
     });
   });
@@ -129,14 +133,14 @@ export const setupProfileEvents = async () => {
       const confirmLogout = confirm("Yakin ingin logout?");
       if (confirmLogout) {
         localStorage.removeItem("user"); // Hapus sesi user
-        alert("Logout berhasil!");
+        showPopup("Logout berhasil!", "success");
         window.location.hash = "/login"; // Redirect ke login page
       }
     });
   }
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user) {
-    alert("Silakan login terlebih dahulu.");
+    showPopup("Silakan login terlebih dahulu.", "error");
     window.location.hash = "/login";
     return;
   }

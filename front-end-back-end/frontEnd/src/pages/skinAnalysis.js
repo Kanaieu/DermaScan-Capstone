@@ -1,8 +1,9 @@
 import Header from "../components/header.js";
 import Footer from "../components/footer.js";
 import { createClient } from "@supabase/supabase-js";
+import { showPopup } from "../components/popup.js";
 
-
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey =process.env.SUPABASE_ANON_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
@@ -154,8 +155,9 @@ export const setupAnalysisEvents = () => {
 
   // Submit Analisis
   submitBtn.addEventListener("click", async () => {
-    if (!uploadedImage) {
-      alert("Please upload a photo first.");
+    const file = document.getElementById("photo-input").files[0];
+    if (!file) {
+      showPopup("Please upload a photo first.", "error");
       return;
     }
 
@@ -164,22 +166,23 @@ export const setupAnalysisEvents = () => {
     <img src="${uploadedImage}" alt="Result" style="max-width:100%; border-radius: 4px;" />
   `;
 
+    const formData = new FormData();
+    formData.append("image", file);
+
     try {
-      const res = await fetch("https://delightful-fascination-production.up.railway.app/predict", {
+      // const res = await fetch("https://delightful-fascination-production.up.railway.app/predict", {
+      const res = await fetch(`${BACKEND_API_URL}/predict`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ demo: true }), // isi dummy agar tidak kosong
+        body: formData, // Kirim form-data
       });
 
       if (!res.ok) throw new Error("Failed to fetch prediction");
 
       const data = await res.json();
 
-      // Tampilkan diagnosis dari backend demo
+      // Tampilkan hasil prediksi, penjelasan, dan pengobatan
       diagnosisInfo.innerHTML = `
-      <p><strong>Detected Condition:</strong><br> ${data.label}</p>
+      <p><strong>Detected Condition:</strong><br> ${data.prediction}</p>
       <p><strong>Explanation:</strong><br> ${data.explanation}</p>
       <p><strong>Suggested Treatment:</strong><br> ${data.treatment}</p>
     `;
@@ -191,14 +194,16 @@ export const setupAnalysisEvents = () => {
 
   saveResultBtn.addEventListener("click", async () => {
     if (!uploadedImage) {
-      alert("Please upload a photo first.");
+      showPopup("Please upload a photo first.", "error");
+      // alert("Please upload a photo first.");
       return;
     }
 
     // Ambil data user dari localStorage
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || !user.id) {
-      alert("User tidak ditemukan. Silakan login ulang.");
+      showPopup("User tidak ditemukan. Silakan login ulang.", "error");
+      // alert("User tidak ditemukan. Silakan login ulang.");
       return;
     }
 
@@ -246,10 +251,12 @@ export const setupAnalysisEvents = () => {
 
       if (!res.ok) throw new Error("Failed to save");
 
-      alert("Saved to profile successfully!");
+      showPopup("Saved to profile successfully!", "success");
+      // alert("Saved to profile successfully!");
     } catch (err) {
       console.error("Error saving to profile:", err); // ← PENTING!
-      alert("Gagal menyimpan: " + (err.message || JSON.stringify(err)));
+      showPopup("Failed to save: " + (err.message || JSON.stringify(err)), "error");
+      // alert("Gagal menyimpan: " + (err.message || JSON.stringify(err)));
     }
 
     // Reset form
