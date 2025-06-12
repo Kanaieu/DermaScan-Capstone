@@ -3,6 +3,7 @@ import './styles/main.css';
 import { setupAnalysisEvents } from './pages/skinAnalysis.js';
 import { setupLoginForm } from './pages/Login.js';
 import { setupRegisterForm } from './pages/Register.js';
+import { setupProfileEvents } from './pages/profile.js';
 
 // Fungsi untuk setup event tombol hamburger
 const setupHeaderEvents = () => {
