@@ -40,24 +40,40 @@ const RegisterPage = () => {
 };
 
 export const setupRegisterForm = () => {
-  if (location.hash === '#/register') {
-    const form = document.getElementById('register-form');
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
+  const form = document.getElementById("register-form");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-        const name = document.getElementById('name-input').value;
-        const email = document.getElementById('email-input').value;
-        const password = document.getElementById('password-input').value;
+      const full_name = document.getElementById("name-input").value;
+      const email = document.getElementById("email-input").value;
+      const password = document.getElementById("password-input").value;
 
-        if (name && email && password) {
-          alert('Registrasi berhasil');
-          window.location.hash = '/login';
-        } else {
-          alert('Semua kolom harus diisi');
+      if (full_name && email && password) {
+        try {
+          const response = await fetch("http://localhost:9001/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ full_name, email, password }),
+          });
+
+          const result = await response.json();
+          if (response.ok) {
+            alert(result.message);
+            window.location.hash = "#/login";
+          } else {
+            alert(result.message);
+          }
+        } catch (err) {
+          console.error(err.message);
+          alert("Terjadi kesalahan saat registrasi.");
         }
-      });
-    }
+      } else {
+        alert("Semua field wajib diisi.");
+      }
+    });
   }
 };
 
