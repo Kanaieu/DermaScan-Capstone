@@ -2,6 +2,8 @@ import Header from "../components/header.js";
 import Footer from "../components/footer.js";
 import { supabase } from "./skinAnalysis.js";
 
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
+
 const Profile = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   return `
@@ -107,7 +109,7 @@ export const setupProfileEvents = async () => {
       if (!confirm("Are you sure you want to delete this entry?")) return;
 
       try {
-        const res = await fetch(`http://localhost:3001/history/${id}`, {
+        const res = await fetch(`${BACKEND_API_URL}/history/${id}`, {
           method: "DELETE",
         });
 
