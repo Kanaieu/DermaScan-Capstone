@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: {
@@ -26,6 +26,8 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
+        { from: "public/manifest.json", to: "manifest.json" },
+        { from: "public/assets", to: "assets" },
         {
           context: path.resolve(__dirname, "public"),
           from: "**/*",

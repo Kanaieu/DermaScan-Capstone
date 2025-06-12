@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabase.js";
+import { supabase } from "../connect/supabase.js";
 
 export default [
   {

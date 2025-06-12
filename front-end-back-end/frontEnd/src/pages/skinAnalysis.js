@@ -165,7 +165,7 @@ export const setupAnalysisEvents = () => {
   `;
 
     try {
-      const res = await fetch("http://localhost:3001/predict", {
+      const res = await fetch("https://delightful-fascination-production.up.railway.app/predict", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -236,7 +236,7 @@ export const setupAnalysisEvents = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3001/history", {
+      const res = await fetch("https://delightful-fascination-production.up.railway.app/history", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

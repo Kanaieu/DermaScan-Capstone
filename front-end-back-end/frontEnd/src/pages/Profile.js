@@ -107,7 +107,7 @@ export const setupProfileEvents = async () => {
       if (!confirm("Are you sure you want to delete this entry?")) return;
 
       try {
-        const res = await fetch(`http://localhost:3001/history/${id}`, {
+        const res = await fetch(`https://delightful-fascination-production.up.railway.app/history/${id}`, {
           method: "DELETE",
         });
 

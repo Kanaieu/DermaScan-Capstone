@@ -1,6 +1,10 @@
 /* src/styles/main.css */
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
 
 
 body {
@@ -883,4 +887,32 @@ main {
 }
 .preview-box.hidden {
   display: none !important;
+}
+
+
+#app {
+  view-transition-name: fade-page;
+}
+
+::view-transition-old(fade-page),
+::view-transition-new(fade-page) {
+  animation-duration: 300ms;
+}
+
+::view-transition-old(fade-page) {
+  animation-name: fade-out;
+}
+
+::view-transition-new(fade-page) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
