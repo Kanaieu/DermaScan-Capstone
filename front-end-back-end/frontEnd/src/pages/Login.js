@@ -1,6 +1,8 @@
 import Header2 from '../components/Header2.js';
 import Footer from '../components/footer.js';
 
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
+
 const LoginPage = () => {
   return `
     ${Header2()}
@@ -35,46 +37,44 @@ const LoginPage = () => {
 };
 
 export const setupLoginForm = () => {
-  if (location.hash === '#/login') {
-    const form = document.getElementById('login-form');
+  if (location.hash === "#/login") {
+    const form = document.getElementById("login-form");
     if (form) {
-      form.addEventListener('submit', async (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const email = document.getElementById('email-input').value;
-        const password = document.getElementById('password-input').value;
+        const email = document.getElementById("email-input").value;
+        const password = document.getElementById("password-input").value;
 
         if (!email || !password) {
-          alert('Email dan password harus diisi');
+          alert("Email dan password harus diisi");
           return;
         }
 
         try {
-          const res = await fetch('http://localhost:3001/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const res = await fetch(`${BACKEND_API_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
           });
 
           const data = await res.json();
 
           if (!res.ok) {
-            alert(data.error || 'Login gagal');
+            alert(data.error || "Login gagal");
             return;
           }
 
-          // Simpan user info di localStorage (sementara, karena demo)
-          localStorage.setItem('user', JSON.stringify(data.user));
-          alert('Login berhasil!');
-          window.location.hash = '/';
+          localStorage.setItem("user", JSON.stringify(data.user));
+          alert("Login berhasil!");
+          window.location.hash = "/";
         } catch (err) {
-          alert('Terjadi kesalahan saat login');
+          alert("Terjadi kesalahan saat login");
           console.error(err);
         }
       });
     }
   }
 };
-
 
 export default LoginPage;
