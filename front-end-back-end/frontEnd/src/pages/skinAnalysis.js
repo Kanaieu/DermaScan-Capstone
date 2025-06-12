@@ -2,7 +2,7 @@ import Header from "../components/header.js";
 import Footer from "../components/footer.js";
 import { createClient } from "@supabase/supabase-js";
 
-
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey =process.env.SUPABASE_ANON_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
@@ -169,7 +169,7 @@ export const setupAnalysisEvents = () => {
     formData.append("image", file);
 
     try {
-      const res = await fetch("https://delightful-fascination-production.up.railway.app/predict", {
+      const res = await fetch(`${BACKEND_API_URL}/predict`, {
         method: "POST",
         body: formData, // Kirim form-data
       });
