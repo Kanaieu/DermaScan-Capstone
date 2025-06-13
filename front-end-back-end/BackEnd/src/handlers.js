@@ -41,14 +41,6 @@ const registerHandler = async (request, h) => {
       .code(500);
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const { error } = await supabase.from("users").insert({
-    full_name,
-    email,
-    password: hashedPassword,
-    created_at: new Date().toISOString(),
-  });
 
   if (error) {
     console.error("Supabase error:", error); // Log error dari Supabase
@@ -87,19 +79,8 @@ const loginHandler = async (request, h) => {
     .single();
 
   if (error || !user) {
-    console.error("Login error:", error); // Tambahkan log ini
-    return h
-      .response({
-        status: "fail",
-        message: "Email atau password salah",
-      })
-      .code(404);
-  }
 
-  // Verifikasi password
-  const isValidPassword = await bcrypt.compare(password, user.password);
-  if (!isValidPassword) {
-    console.error("Password mismatch for email:", email); // Tambahkan log ini
+    console.error("Login error:", error); // Tambahkan log ini
     return h
       .response({
         status: "fail",
@@ -107,6 +88,18 @@ const loginHandler = async (request, h) => {
       })
       .code(401);
   }
+
+  const isValid = await bcrypt.compare(password, user.password);
+  if (!isValid) {
+
+    return h
+      .response({
+        status: "fail",
+        message: "Email atau password salah",
+      })
+      .code(401);
+  }
+
 
   // Buat token JWT
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
@@ -123,8 +116,29 @@ const loginHandler = async (request, h) => {
 };
 
 const editProfileHandler = async (request, h) => {
-  const userId = request.auth.userId; // Ambil userId dari middleware
+  const token = request.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return h
+      .response({
+        status: "fail",
+        message: "Token tidak ditemukan",
+      })
+      .code(401);
+  }
 
+  let userId;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    userId = decoded.id;
+  } catch (err) {
+    return h
+      .response({
+        status: "fail",
+        message: "Token tidak valid",
+      })
+      .code(403);
+  }
+  const userId = request.auth.userId; // Ambil userId dari middlewar
   const { full_name, email, current_password, new_password } = request.payload;
 
   const { data: user, error } = await supabase
@@ -183,7 +197,6 @@ const editProfileHandler = async (request, h) => {
     })
     .code(200);
 };
-
 const analyzeHandler = async (request, h) => {
   const userId = request.auth.userId; // Ambil userId dari middleware
 
