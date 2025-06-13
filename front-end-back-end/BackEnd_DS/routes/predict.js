@@ -11,7 +11,7 @@ export default [
     path: '/predict',
     options: {
       payload: {
-        output: 'file',         // Supaya bisa akses file path
+        output: 'stream',         // Supaya bisa akses file path
         parse: true,
         multipart: true,
         allow: 'multipart/form-data',
