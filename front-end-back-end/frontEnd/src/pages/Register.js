@@ -82,9 +82,12 @@ export const setupRegisterForm = () => {
         } catch (err) {
           showPopup("Terjadi kesalahan saat registrasi", "error"); // Ganti alert dengan showPopup
           console.error(err);
+
         }
-      });
-    }
+      } else {
+        alert("Semua field wajib diisi.");
+      }
+    });
   }
 };
 

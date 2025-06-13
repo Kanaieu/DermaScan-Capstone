@@ -1,3 +1,4 @@
+
 import Home from "../pages/Home.js";
 import Analysis, { setupAnalysisEvents } from "../pages/skinAnalysis.js";
 import Education from "../pages/Education.js";
@@ -17,7 +18,6 @@ const routes = {
   "/login": { render: LoginPage, setup: setupLoginForm },
   "/register": { render: RegisterPage, setup: setupRegisterForm },
   "/edit-profile": { render: EditProfile },
-};
 
 const router = async () => {
   const path = location.hash.slice(1) || "/";
