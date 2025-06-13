@@ -1,7 +1,7 @@
 
 import Home from "../pages/Home.js";
 import Analysis, { setupAnalysisEvents } from "../pages/skinAnalysis.js";
-import Education from "../pages/Education.js";
+import EducationPage from "../pages/Education.js";
 import Profile, { setupProfileEvents } from "../pages/Profile.js";
 import About from "../pages/About.js";
 import LoginPage, { setupLoginForm } from "../pages/Login.js";
@@ -12,7 +12,7 @@ import EducationDetails from "../pages/education-details.js";
 const routes = {
   "/": { render: Home },
   "/analysis": { render: Analysis, setup: setupAnalysisEvents },
-  "/education": { render: Education },
+  "/education": { render: EducationPage },
   "/profile": { render: Profile, setup: setupProfileEvents },
   "/about": { render: About },
   "/login": { render: LoginPage, setup: setupLoginForm },
