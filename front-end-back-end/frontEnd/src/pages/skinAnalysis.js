@@ -1,5 +1,33 @@
-import Header from '../components/header.js';
-import Footer from '../components/footer.js';
+
+import Header from "../components/header.js";
+import Footer from "../components/footer.js";
+import { createClient } from "@supabase/supabase-js";
+import { showPopup } from "../components/popup.js";
+
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey =process.env.SUPABASE_ANON_KEY;
+export const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Fungsi upload gambar ke Supabase Storage
+const uploadImageToSupabase = async (file, filename) => {
+  const { data, error } = await supabase.storage
+    .from("images")
+    .upload(`user-uploads/${filename}`, file, {
+      cacheControl: "3600",
+      upsert: true,
+    });
+
+  console.log("Upload result:", { data, error });
+
+  if (error) throw error;
+
+  const { data: publicUrl } = supabase.storage
+    .from("images")
+    .getPublicUrl(data.path);
+
+  return publicUrl.publicUrl;
+};
 
 const Analysis = () => {
   return `
@@ -49,22 +77,25 @@ const Analysis = () => {
 };
 
 export const setupAnalysisEvents = () => {
-  console.log('setupAnalysisEvents dijalankan');
-  if (location.hash !== '#/analysis') return;
+  console.log("setupAnalysisEvents dijalankan");
+  if (location.hash !== "#/analysis") return;
 
-  const dropArea = document.getElementById('drop-area');
-  const fileInput = document.getElementById('photo-input');
-  console.log('photo-input:', fileInput);
-  const previewBox = document.getElementById('preview-box');
-  const previewImage = document.getElementById('preview-image');
-  const changeBtn = document.getElementById('change-image');
-  const submitBtn = document.getElementById('submit-analysis');
-  const resultSection = document.getElementById('result-section');
-  const previewBoxResult = document.getElementById('preview-box-result');
-  const label = document.querySelector('.upload-label');
-  const cameraBtn = document.getElementById('open-camera');
+  const dropArea = document.getElementById("drop-area");
+  const fileInput = document.getElementById("photo-input");
+  console.log("photo-input:", fileInput);
+  const previewBox = document.getElementById("preview-box");
+  const previewImage = document.getElementById("preview-image");
+  const changeBtn = document.getElementById("change-image");
+  const submitBtn = document.getElementById("submit-analysis");
+  const resultSection = document.getElementById("result-section");
+  const previewBoxResult = document.getElementById("preview-box-result");
+  const label = document.querySelector(".upload-label");
+  const cameraBtn = document.getElementById("open-camera");
+  const saveResultBtn = document.getElementById("save-result");
+  const diagnosisInfo = document.getElementById("diagnosis-info");
 
-  let uploadedImage = '';
+  let uploadedImage = "";
+
 
   // Tampilkan preview saat upload
   const showPreview = (file) => {
@@ -126,6 +157,56 @@ export const setupAnalysisEvents = () => {
 
   // Submit Analisis
   submitBtn.addEventListener("click", async () => {
+    const file = document.getElementById("photo-input").files[0];
+    if (!file) {
+      showPopup("Please upload a photo first.", "error");
+      return;
+    }
+
+    resultSection.classList.remove("hidden");
+    previewBoxResult.innerHTML = `
+    <img src="${uploadedImage}" alt="Result" style="max-width:100%; border-radius: 4px;" />
+  `;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      // const res = await fetch("https://delightful-fascination-production.up.railway.app/predict", {
+      const res = await fetch(`${BACKEND_API_URL}/predict`, {
+        method: "POST",
+        body: formData, // Kirim form-data
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch prediction");
+
+      const data = await res.json();
+
+      // Tampilkan hasil prediksi, penjelasan, dan pengobatan
+      diagnosisInfo.innerHTML = `
+      <p><strong>Detected Condition:</strong><br> ${data.prediction}</p>
+      <p><strong>Explanation:</strong><br> ${data.explanation}</p>
+      <p><strong>Suggested Treatment:</strong><br> ${data.treatment}</p>
+    `;
+    } catch (err) {
+      console.error("Prediction error:", err);
+      diagnosisInfo.innerHTML = `<p class="text-red-500">Failed to load prediction result.</p>`;
+    }
+  });
+
+  saveResultBtn.addEventListener("click", async () => {
+    if (!uploadedImage) {
+      showPopup("Please upload a photo first.", "error");
+      // alert("Please upload a photo first.");
+      return;
+    }
+
+    // Ambil data user dari localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || !user.id) {
+      showPopup("User tidak ditemukan. Silakan login ulang.", "error");
+      // alert("User tidak ditemukan. Silakan login ulang.");
+      return;
     if (!uploadedImage) {
       alert("Please upload a photo first.");
       return;
@@ -187,8 +268,58 @@ export const setupAnalysisEvents = () => {
       alert("An error occurred. Please try again.");
     }
 
-    // Simulasi penyimpanan hasil ke profil
-    alert("Diagnosis result saved to your profile successfully!");
+    const file = document.getElementById("photo-input").files[0];
+    const imageUrl = await uploadImageToSupabase(
+      file,
+      `user-${user.id}-${Date.now()}.jpg`,
+    );
+
+    // Ambil info diagnosis
+    const detectedLabel =
+      diagnosisInfo
+        .querySelector("p:nth-child(1)")
+        .textContent.split(":")[1]
+        ?.trim() || "-";
+
+    const explanation =
+      diagnosisInfo
+        .querySelector("p:nth-child(2)")
+        .textContent.split(":")[1]
+        ?.trim() || "-";
+
+    const treatment =
+      diagnosisInfo
+        .querySelector("p:nth-child(3)")
+        .textContent.split(":")[1]
+        ?.trim() || "-";
+
+    // Buat payload dengan userId
+    const payload = {
+      label: detectedLabel,
+      explanation: `${explanation} ${treatment}`,
+      imageUrl,
+      userId: user.id, // ← kirim user id
+    };
+
+    try {
+      const res = await fetch(`${BACKEND_API_URL}/history`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Failed to save");
+
+      showPopup("Saved to profile successfully!", "success");
+      // alert("Saved to profile successfully!");
+    } catch (err) {
+      console.error("Error saving to profile:", err); // ← PENTING!
+      showPopup("Failed to save: " + (err.message || JSON.stringify(err)), "error");
+      // alert("Gagal menyimpan: " + (err.message || JSON.stringify(err)));
+    }
+
     // Reset form
     fileInput.value = "";
     uploadedImage = "";

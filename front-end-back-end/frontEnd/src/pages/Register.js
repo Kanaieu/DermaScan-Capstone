@@ -1,5 +1,6 @@
-import Header2 from '../components/Header2.js';
-import Footer from '../components/footer.js';
+import Header2 from "../components/Header2.js";
+import Footer from "../components/footer.js";
+import { showPopup } from "../components/popup.js";
 
 const RegisterPage = () => {
   return `
@@ -39,36 +40,49 @@ const RegisterPage = () => {
   `;
 };
 
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
+
 export const setupRegisterForm = () => {
-  const form = document.getElementById("register-form");
-  if (form) {
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  // console.log("Disini Aman 1");
+  if (location.hash === "#/register") {
+    const form = document.getElementById("register-form");
+    // console.log("Disini Aman 2");
+    if (form) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      const full_name = document.getElementById("name-input").value;
-      const email = document.getElementById("email-input").value;
-      const password = document.getElementById("password-input").value;
+        // console.log("Disini Aman 3");
+        const name = document.getElementById("name-input").value;
+        const email = document.getElementById("email-input").value;
+        const password = document.getElementById("password-input").value;
 
-      if (full_name && email && password) {
+        if (!name || !email || !password) {
+          showPopup("Semua kolom harus diisi", "error"); // Ganti alert dengan showPopup
+          return;
+        }
+
         try {
-          const response = await fetch("http://localhost:9001/register", {
+          // const res = await fetch("https://delightful-fascination-production.up.railway.app/register", {
+          const res = await fetch(`${BACKEND_API_URL}/register`, {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ full_name, email, password }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password }),
           });
 
-          const result = await response.json();
-          if (response.ok) {
-            alert(result.message);
-            window.location.hash = "#/login";
-          } else {
-            alert(result.message);
+          console.log("Disini Aman 5");
+          const data = await res.json();
+
+          if (!res.ok) {
+            showPopup(data.error || "Registrasi gagal", "error"); // Ganti alert dengan showPopup
+            return;
           }
+
+          showPopup("Registrasi berhasil!", "success"); // Ganti alert dengan showPopup
+          window.location.hash = "/login";
         } catch (err) {
-          console.error(err.message);
-          alert("Terjadi kesalahan saat registrasi.");
+          showPopup("Terjadi kesalahan saat registrasi", "error"); // Ganti alert dengan showPopup
+          console.error(err);
+
         }
       } else {
         alert("Semua field wajib diisi.");
