@@ -31,6 +31,7 @@ DermaScan adalah platform cerdas berbasis web yang dirancang untuk mendeteksi pe
 GitHub Copilot
 Berikut adalah README.md yang diperbarui sesuai dengan kebutuhan Anda, yaitu menggunakan Tailwind CSS dan Native JavaScript, serta tidak menggunakan TFLite:
 
+```
 DermaScan-Capstone/ 
 ├── front-end-back-end/ 
 │ ├── frontEnd/ # Kode untuk frontend aplikasi 
@@ -40,17 +41,18 @@ DermaScan-Capstone/
 │ ├── docker_ml/ # Konfigurasi Docker untuk model machine learning 
 │ ├── app/ # Server FastAPI dan model TensorFlow 
 └── README.md # Dokumentasi utama proyek
+```
 
 📚 Referensi
-TensorFlow Documentation
-FastAPI Documentation
-Supabase Documentation
-Tailwind CSS Documentation
+- [TensorFlow Documentation](https://www.tensorflow.org/)
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [Supabase Documentation](https://supabase.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
 🏆 Kontributor
-Muhammad Husni Tazul Insani - Machine Learning Engineer
-Muhammad Tsaqiif Ash-Shiddiq - Machine Learning Engineer
-Mikacinta Gustina Amalan Toyibah - Machine Learning Engineer
-Siti Aisyah Bintang Larasati - Frontend Developer
-Rizqon Luthfirrahman - Frontend Developer
-Jupri Naldi - Backend Developer
+- Muhammad Husni Tazul Insani – Machine Learning Engineer
+- Muhammad Tsaqiif Ash-Shiddiq – Machine Learning Engineer
+- Mikacinta Gustina Amalan Toyibah – Machine Learning Engineer
+- Siti Aisyah Bintang Larasati – Frontend Developer
+- Rizqon Luthfirrahman – Frontend Developer
+- Jupri Naldi – Backend Developer
