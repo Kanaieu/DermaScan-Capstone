@@ -241,7 +241,7 @@ export const setupAnalysisEvents = () => {
     };
 
     try {
-      const res = await fetch("https://delightful-fascination-production.up.railway.app/history", {
+      const res = await fetch(`${BACKEND_API_URL}/history`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
